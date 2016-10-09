@@ -52,16 +52,16 @@ The training data set contains 19622 observations and 160 variables, while the t
 
 #Data Cleaning
 
-Here, e will clean the data and get rid of observations with missing values as well as some meaningless variables.
+Here, we will clean the data and get rid of observations with missing values as well as some meaningless variables.
 ```{r}
 sum(complete.cases(trainRaw))
 ```
-##First, we remove columns that contain NA missing values.
+###First, we remove columns that contain NA missing values.
 ```{r}
 trainRaw <- trainRaw[, colSums(is.na(trainRaw)) == 0] 
 testRaw <- testRaw[, colSums(is.na(testRaw)) == 0] 
 ```
-##Next, we get rid of some columns that do not contribute much to the accelerometer measurements.
+###Next, we get rid of some columns that do not contribute much to the accelerometer measurements.
 ```{r}
 classe <- trainRaw$classe
 trainRemove <- grepl("^X|timestamp|window", names(trainRaw))
@@ -91,7 +91,7 @@ controlRf <- trainControl(method="cv", 5)
 modelRf <- train(classe ~ ., data=trainData, method="rf", trControl=controlRf, ntree=250)
 modelRf
 ```
-##Then, we estimate the performance of the model on the validation data set.
+###Then, we estimate the performance of the model on the validation data set.
 ```{r}
 predictRf <- predict(modelRf, testData)
 confusionMatrix(testData$classe, predictRf)
